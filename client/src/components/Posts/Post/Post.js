@@ -1,13 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import useStyles from './styles';
+import useStyles from "./styles";
 
 const Post = () => {
-    const classes = useStyles();
-    
-    return (
-        <h1>POST</h1>
-    );
-}
+  const classes = useStyles();
 
-export default Post
+  return <h1>POST</h1>;
+};
+
+export default Post;
