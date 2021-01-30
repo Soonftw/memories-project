@@ -1,26 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import useStyles from "./styles";
-import { createPost } from "../../actions/posts";
+import { createPost, updatePost } from "../../actions/posts";
 
 const Form = ({ currentId, setCurrentId }) => {
-  const [postData, setPostDate] = useState({
+  const [postData, setPostData] = useState({
     creator: "",
     title: "",
     message: "",
     tags: "",
     selectedFile: "",
   });
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null
+  );
+
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(createPost(postData));
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
   };
   const clear = () => {};
 
@@ -40,7 +52,7 @@ const Form = ({ currentId, setCurrentId }) => {
           fullWidth
           value={postData.creator}
           onChange={(e) =>
-            setPostDate({ ...postData, creator: e.target.value })
+            setPostData({ ...postData, creator: e.target.value })
           }
         ></TextField>
         <TextField
@@ -49,7 +61,7 @@ const Form = ({ currentId, setCurrentId }) => {
           label="Title"
           fullWidth
           value={postData.title}
-          onChange={(e) => setPostDate({ ...postData, title: e.target.value })}
+          onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         ></TextField>
         <TextField
           name="message"
@@ -58,7 +70,7 @@ const Form = ({ currentId, setCurrentId }) => {
           fullWidth
           value={postData.message}
           onChange={(e) =>
-            setPostDate({ ...postData, message: e.target.value })
+            setPostData({ ...postData, message: e.target.value })
           }
         ></TextField>
         <TextField
@@ -67,14 +79,14 @@ const Form = ({ currentId, setCurrentId }) => {
           label="Tags"
           fullWidth
           value={postData.tags}
-          onChange={(e) => setPostDate({ ...postData, tags: e.target.value })}
+          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
         ></TextField>
         <div className={classes.fileInput}>
           <FileBase
             type="file"
             multiple={false}
             onDone={({ base64 }) =>
-              setPostDate({ ...postData, selectedFile: base64 })
+              setPostData({ ...postData, selectedFile: base64 })
             }
           />
         </div>
