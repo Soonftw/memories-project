@@ -1,13 +1,21 @@
-import React from 'react';
+import React from "react";
+import { TextField, Button, Typography, Paper } from "@material-ui/core";
 
-import useStyles from './styles';
-    
+import useStyles from "./styles";
+
 const Form = () => {
-    const classes = useStyles();
-    
-    return (
-        <h1>FORM</h1>
-    );
-}
+  const classes = useStyles();
 
-export default Form
+  return (
+    <Paper className={classes.paper}>
+      <form
+        autoComplete="off"
+        noValidate
+        className={classes.form}
+        onSubmit={handleSubmit}
+      ></form>
+    </Paper>
+  );
+};
+
+export default Form;
