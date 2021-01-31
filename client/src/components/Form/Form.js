@@ -13,6 +13,7 @@ const Form = ({ currentId, setCurrentId }) => {
     message: "",
     tags: "",
     selectedFile: "",
+    likeCount: 0,
   });
   const post = useSelector((state) =>
     currentId ? state.posts.find((message) => message._id === currentId) : null
@@ -25,7 +26,7 @@ const Form = ({ currentId, setCurrentId }) => {
   }, [post]);
 
   const clear = () => {
-    setCurrentId(null);
+    setCurrentId(0);
     setPostData({
       creator: "",
       title: "",

@@ -14,6 +14,14 @@ const postSchema = mongoose.Schema({
     type: Date,
     default: new Date(),
   },
+  hasBeenEdited: {
+    type: Boolean,
+    default: false,
+  },
+  editedAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 var PostMessage = mongoose.model("PostMessage", postSchema);
