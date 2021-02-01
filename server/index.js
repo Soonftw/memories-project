@@ -13,7 +13,6 @@ app.use(cors());
 
 app.use("/posts", postRoutes);
 
-// Put in .env
 const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT || 5000;
 
