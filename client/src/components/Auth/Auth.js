@@ -8,19 +8,34 @@ import {
   Container,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { GoogleLogin } from "react-google-login";
 
 import Input from "./Input";
 import useStyles from "./styles";
+import Icon from "./icon";
 
 const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
 
-  const isSignup = true;
   const handleSubmit = () => {};
   const handleChange = () => {};
   const handleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
+
+  const switchMode = () => {
+    setIsSignup((prevIsSignup) => !prevIsSignup);
+    handleShowPassword(false);
+  };
+
+  const googleSuccess = async (res) => {
+    console.log(res);
+  };
+  const googleError = (error) => {
+    console.log(error);
+    console.log("Google Sign In was unsuccessful. Try again later.");
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -70,6 +85,7 @@ const Auth = () => {
               ></Input>
             )}
           </Grid>
+
           <Button
             type="submit"
             fullWidth
@@ -79,6 +95,34 @@ const Auth = () => {
           >
             {isSignup ? "Sign Up" : "Sign in"}
           </Button>
+          <GoogleLogin
+            clientId="610575186155-ur5ei8t4s7ithvrjhn22hj8gj1i51k9m.apps.googleusercontent.com"
+            render={(renderProps) => (
+              <Button
+                className={classes.googleButton}
+                color="primary"
+                fullWidth
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+                startIcon={<Icon />}
+                variant="contained"
+              >
+                Google Sign In
+              </Button>
+            )}
+            onSuccess={googleSuccess}
+            onFailure={googleError}
+            cookiePolicy="single_host_origin"
+          />
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Button onClick={switchMode}>
+                {isSignup
+                  ? "Already have an account? Sign In"
+                  : "Don't have an account? Sign Up"}
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </Paper>
     </Container>
